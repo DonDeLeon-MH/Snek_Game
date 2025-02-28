@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtGui
+from PyQt5 import QtGui, QtCore, QtWidgets
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QAction, QMenu, QFrame) #Imports indicados por su nombre
 from PyQt5.QtGui import QFont, QPainter, QColor
 from PyQt5.QtCore import *
@@ -14,29 +14,44 @@ class MainWindow(QMainWindow): #Inheritance from QMainWindow, which is a framewo
         self.setWindowTitle("Snek")
         self.setWindowIcon(QtGui.QIcon("./image/image.png"))
         self.title_label = QLabel("Snake Game", self)
+        self.button = QtWidgets.QPushButton("R")
         self.frame = Grid()
         self.status = self.statusBar()
         self.initUi()
         self.show()
 
+
+    def restart():
+        MainWindow.singleton = MainWindow()
+        
     def initUi(self):
-        self.setCentralWidget(self.frame)
+        
+
+        
 
         self.status.showMessage("Score:0")
-        self.title_label.setGeometry(0,0,500,20)
+        self.title_label.setGeometry(0,0,480,20)
         self.title_label.setStyleSheet("background-color: black;"
                                   "color: blue;")
         self.title_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        
+
+        self.button.setGeometry(480,0,20,20)
+        self.button.clicked.connect(MainWindow.restart)
+        self.button.setParent(self)
+
         self.frame.setGeometry(0,20,500,450) #Created frame in which snake will move
         self.frame.setStyleSheet("background-color: green;")
-        
+        self.frame.setParent(self)
 
 
         vbox = QVBoxLayout()
 
         vbox.addWidget(self.title_label)
         vbox.addWidget(self.frame)
+        vbox.addWidget(self.button)
+
+
+        
 
     def keyPressEvent(self, event): #Function called each time a key is pressed 
         if event.key() == Qt.Key_W:  #Check what was the key that was pressed, and assign it to the event.key() var
