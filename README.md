@@ -1,1 +1,1 @@
-Very basic snake game, want to add features in the future.
+Very basic snake game in PyQt5, want to add features in the future.
